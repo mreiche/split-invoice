@@ -9,7 +9,8 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@material/web": "^1.0.0-pre.5",
-    "aurelia": "latest"
+    "aurelia": "latest",
+    "peerjs": "^1.4.7"
   },
   "devDependencies": {
     "@aurelia/testing": "latest",

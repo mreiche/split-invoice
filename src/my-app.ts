@@ -7,16 +7,40 @@ import "@material/web/segmentedbutton/outlined-segmented-button"
 import "@material/web/divider/divider"
 import "@material/web/iconbutton/standard-icon-button"
 
-export class MyApp {
-  public message = 'Hello World!'
-  private _switched = true
-  private _checked = true
+import Peer from "peerjs";
 
-  private _click() {
-    this.message = "Clicked"
+export class MyApp {
+  private _peerId:string
+  private readonly _peer
+
+  constructor() {
+    this._peer = new Peer()
+    this._peer.on('open', id => {
+      console.log('My peer ID is: ' + id);
+      this._peerId = id
+    });
   }
 
-  private _selected() {
-    console.log("selected")
+  private _openPeer() {
+    console.log("Starting peer")
+  }
+
+  private _connectPeer() {
+    const conn = this._peer.connect(this._peerId)
+    conn.on('open', () => {
+      // Receive messages
+      conn.on('data', function(data) {
+        console.log('Received', data);
+      });
+
+      // Send messages
+      conn.send('Hello!');
+    });
+  }
+
+  private _sharePeerId() {
+    navigator.share({
+      text: this._peerId
+    })
   }
 }
